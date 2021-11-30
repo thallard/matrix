@@ -1,3 +1,5 @@
+import sys
+
 class Vector(object):
     # Constructor
     def __init__(self, array):
@@ -71,3 +73,38 @@ class Vector(object):
         for i in range(len(self.vector)):
             value += self.vector[i] * factor.vector[i]
         return value
+
+    # Norm using Manhattan distance
+    def norm_1(self):
+        norm = 0.0
+        for i in range(len(self.vector)):
+            norm += abs(self.vector[i])
+        return round(norm ** 0.5, 5)
+
+    # Euclidean norm
+    def norm(self):
+        norm = 0.0
+        for i in range(len(self.vector)):
+            norm += self.vector[i] ** 2
+        return round(norm ** 0.5, 5)
+
+    # Infinite norm using Chebyshev distance
+    def norm_inf(self):
+        value = -sys.maxsize
+
+        for i in range(len(self.vector)):
+            if value < self.vector[i]:
+                value = self.vector[i]
+        return round(value, 5)
+
+    # Cross product
+    def cross_product(self, vector):
+        cross_product = []
+
+        cross_product.append(self.vector[1] * vector[2] - self.vector[2] * vector[1])
+        cross_product.append(self.vector[2] * vector[0] - self.vector[0] * vector[2])
+        cross_product.append(self.vector[0] * vector[1] - self.vector[1] * vector[0])
+
+        return cross_product
+
+
