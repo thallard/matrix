@@ -18,6 +18,8 @@ class Vector(object):
 
     # Return a 1D array with shape [rows, columns]
     def shape(self):
+        if isinstance(self.vector[0], (float, int)):
+            return [len(self.vector), 1]
         return [len(self.vector), len(self.vector[0])]
 
     # Return a boolean if the Vector is a square
@@ -56,3 +58,16 @@ class Vector(object):
         for i in range(len(self.vector)):
             vector_lerp.append((target.vector[i] - self.vector[i]) * interpolation + self.vector[i])
         return vector_lerp
+
+    # Dot product
+    def dot(self, factor):
+        if self.shape() != factor.shape():
+            return None
+
+        if self.vector == factor.vector:
+            return self.vector[0]
+
+        value = 0
+        for i in range(len(self.vector)):
+            value += self.vector[i] * factor.vector[i]
+        return value
