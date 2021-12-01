@@ -99,12 +99,12 @@ class Vector(object):
 
     # Cross product
     def cross_product(self, vector):
-        cross_product = []
+        if self.shape()[0] != 3 or len(vector) != 3:
+            return None
 
-        cross_product.append(self.vector[1] * vector[2] - self.vector[2] * vector[1])
-        cross_product.append(self.vector[2] * vector[0] - self.vector[0] * vector[2])
-        cross_product.append(self.vector[0] * vector[1] - self.vector[1] * vector[0])
-
+        cross_product = [self.vector[1] * vector[2] - self.vector[2] * vector[1],
+                         self.vector[2] * vector[0] - self.vector[0] * vector[2],
+                         self.vector[0] * vector[1] - self.vector[1] * vector[0]]
         return cross_product
 
 

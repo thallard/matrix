@@ -84,3 +84,28 @@ class Matrix(object):
                 values.append((target.matrix[j][i] - self.matrix[j][i]) * interpolation + self.matrix[j][i])
             matrix_lerp.append(values)
         return matrix_lerp
+
+    # Matrix multiplication with a vector
+    def mul_vec(self, vector):
+        new_vector = []
+
+        for i in range(len(self.matrix)):
+            value = 0
+            for j in range(len(self.matrix[i])):
+                value += self.matrix[i][j] * vector[j]
+            new_vector.append(value)
+        return new_vector
+
+    # Matrix multiplication with a matrix
+    def mul_mat(self, matrix):
+        new_matrix = []
+
+        for row in range(len(self.matrix)):
+            temp = []
+            for column in range(len(self.matrix[row])):
+                value = 0
+                for i in range(len(self.matrix[row])):
+                    value += self.matrix[row][i] * matrix[i][column]
+                temp.append(value)
+            new_matrix.append(temp)
+        return new_matrix
