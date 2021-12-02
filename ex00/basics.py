@@ -1,5 +1,9 @@
-from Matrix import Matrix
-from Vector import Vector
+import sys
+
+sys.path.append('../')
+
+from Classes.Matrix import Matrix
+from Classes.Vector import Vector
 
 if __name__ == '__main__':
     print('\033[32mMatrix part (row)\033[0m')

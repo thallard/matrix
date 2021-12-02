@@ -1,4 +1,8 @@
-from Vector import Vector
+import sys
+
+sys.path.append('../')
+
+from Classes.Vector import Vector
 
 
 # Apply vector values with a scalar
