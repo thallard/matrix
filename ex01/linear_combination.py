@@ -5,32 +5,6 @@ sys.path.append('../')
 from Classes.Vector import Vector
 from Classes.Matrix import Matrix
 
-# Apply vector values with a scalar
-def linear_combination(vectors, scalars):
-    modified_vectors = []
-
-    # One row vector gestion
-    if isinstance(vectors[0], (int, float)):
-        for i in range(len(vectors)):
-            value = 0
-            for j in range(len(scalars)):
-                value += vectors[i] * scalars[j]
-            modified_vectors.append(value)
-        return modified_vectors
-
-    # Check size input
-    for i in range(len(vectors)):
-        if len(vectors[i]) != len(vectors[0]) or len(scalars) != len(vectors):
-            return None
-
-    # Linear combination
-    for i in range(len(vectors[0])):
-        value = 0
-        for j in range(len(scalars)):
-            value += vectors[j][i] * scalars[j]
-        modified_vectors.append(value)
-    return modified_vectors
-
 
 if __name__ == '__main__':
     print('\033[34mVector part (linear combination)\033[0m')
