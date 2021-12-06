@@ -53,6 +53,32 @@ class Vector(object):
         for i in range(len(self.vector)):
             self.vector[i] *= scalar
 
+    # Apply vector values with a scalar
+    def linear_combination(self, scalars):
+        modified_vectors = []
+
+        # One row vector gestion
+        if isinstance(self.vector[0], (int, float)):
+            for i in range(len(self.vector)):
+                value = 0
+                for j in range(len(scalars)):
+                    value += self.vector[i] * scalars[j]
+                modified_vectors.append(value)
+            return modified_vectors
+
+        # Check size input
+        for i in range(len(self.vector)):
+            if len(self.vector[i]) != len(self.vector[0]) or len(scalars) != len(self.vector):
+                return None
+
+        # Linear combination
+        for i in range(len(self.vector[0])):
+            value = 0
+            for j in range(len(scalars)):
+                value += self.vector[j][i] * scalars[j]
+            modified_vectors.append(value)
+        return modified_vectors
+
     # Linear interpolation with a scalar
     def lerp(self, target, interpolation):
         vector_lerp = []

@@ -3,11 +3,20 @@ import sys
 sys.path.append('../')
 
 from Classes.Vector import Vector
-
+from Classes.Matrix import Matrix
 
 # Apply vector values with a scalar
 def linear_combination(vectors, scalars):
     modified_vectors = []
+
+    # One row vector gestion
+    if isinstance(vectors[0], (int, float)):
+        for i in range(len(vectors)):
+            value = 0
+            for j in range(len(scalars)):
+                value += vectors[i] * scalars[j]
+            modified_vectors.append(value)
+        return modified_vectors
 
     # Check size input
     for i in range(len(vectors)):
@@ -24,15 +33,24 @@ def linear_combination(vectors, scalars):
 
 
 if __name__ == '__main__':
-    vector1 = Vector([1, 2, 3])
-    vector2 = Vector([0, 10, -100])
+    print('\033[34mVector part (linear combination)\033[0m')
+    vector1 = Vector([-42, 42])
+    print(vector1.linear_combination([-1]))
 
-    vectors = [vector1.vector, vector2.vector]
-    print(linear_combination(vectors, [10, -2]))
+    v1 = Vector([[-42], [-42], [-42]])
+    print(v1.linear_combination([-1, 1, 0]))
 
-    e1 = Vector([1, 0, 0])
-    e2 = Vector([0, 1, 0])
-    e3 = Vector([0, 0, 1])
+    v1 = Vector([[-42, 42], [1, 3], [10, 20]])
+    print(v1.linear_combination([1, -10, -1]))
 
-    vectors = [e1.vector, e2.vector, e3.vector]
-    print(linear_combination(vectors, [10, -2, 0.5]))
+    v1 = Vector([[-42, 100, -69.5], [1, 3, 5]])
+    print(v1.linear_combination([1, -10]))
+
+    print('\033[34mMatrix part (linear combination)\033[0m')
+
+    m1 = Matrix([-42, 42])
+    print(m1.linear_combination([-1]))
+
+    m1 = Matrix([[-42], [-42], [-42]])
+    print(m1.linear_combination([-1, 1, 0]))
+

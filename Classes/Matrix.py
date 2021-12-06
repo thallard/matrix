@@ -1,9 +1,32 @@
-import copy
+import sys
+
+
+# Verify content provided in matrices
+def is_valid(array):
+    # One row gestion
+    if isinstance(array[0], (int, float)):
+        for i in range(len(array)):
+            if not isinstance(array[i], (int, float)):
+                print('\033[31mIncorrect value given (' + str(array[i]) + ').\033[0m')
+                sys.exit(1)
+        return 1
+    elif not isinstance(array[0], list):
+        print('\033[31mIncorrect type given.\033[0m')
+        sys.exit(1)
+
+    # Multiples rows gestion
+    for i in range(len(array)):
+        for j in range(len(array[i])):
+            if not isinstance(array[i][j], (int, float)):
+                print('\033[31mIncorrect value given (' + str(array[i]) + ').\033[0m')
+                sys.exit(1)
 
 
 class Matrix(object):
     # Constructor
     def __init__(self, array):
+        # Verify content of array
+        is_valid(array)
         self.matrix = []
 
         # One column gestion and populate matrix
@@ -64,6 +87,27 @@ class Matrix(object):
         for i in range(len(self.matrix)):
             for j in range(len(self.matrix[i])):
                 self.matrix[i][j] *= scalar
+
+    # Apply vector values with a scalar
+    def linear_combination(self, scalars):
+        modified_matrix = []
+
+        # Check size input
+        for i in range(len(self.matrix)):
+            if len(self.matrix[i]) != len(self.matrix[0]) or len(scalars) != len(self.matrix):
+                return None
+
+        # print(len(self.matrix))
+        # Linear combination
+        for i in range(len(self.matrix)):
+            value = 0
+            for j in range(len(scalars)):
+                if j >= len(self.matrix[i]):
+                    value += self.matrix[i][len(self.matrix[i]) - 1] * scalars[j]
+                else:
+                    value += self.matrix[i][j] * scalars[j]
+            modified_matrix.append(value)
+        return modified_matrix
 
     # Linear interpolation with scalar
     def lerp(self, target, interpolation):
