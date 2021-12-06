@@ -12,19 +12,23 @@ def angle_cos(vector1, vector2):
 
 if __name__ == '__main__':
     v1 = Vector([1, 0])
-    v2 = Vector([1, 0])
-    print(angle_cos(v1, v2))
-
-    v1 = Vector([1, 0])
     v2 = Vector([0, 1])
     print(angle_cos(v1, v2))
 
-    v1 = Vector([-1, 1])
-    v2 = Vector([1, -1])
+    v1 = Vector([8, 7])
+    v2 = Vector([3, 2])
     print(angle_cos(v1, v2))
 
-    v1 = Vector([2, 1])
-    v2 = Vector([4, 2])
+    v1 = Vector([1, 1])
+    v2 = Vector([1, 1])
+    print(angle_cos(v1, v2))
+
+    v1 = Vector([4, 2])
+    v2 = Vector([1, 1])
+    print(angle_cos(v1, v2))
+
+    v1 = Vector([-7, 3])
+    v2 = Vector([6, 4])
     print(angle_cos(v1, v2))
 
     v1 = Vector([1, 2, 3])
