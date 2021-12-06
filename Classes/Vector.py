@@ -12,8 +12,10 @@ class Vector(object):
     # Debug function to print all values from Vector object
     def print(self):
         for i in range(len(self.vector)):
+            if i == 0:
+                print('[', end='')
             if i == len(self.vector) - 1:
-                print(self.vector[i])
+                print(repr(self.vector[i]) + ']')
             else:
                 print(self.vector[i], end=', ')
         print()

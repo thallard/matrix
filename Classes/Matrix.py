@@ -1,3 +1,6 @@
+import copy
+
+
 class Matrix(object):
     # Constructor
     def __init__(self, array):
@@ -6,27 +9,26 @@ class Matrix(object):
         # One column gestion and populate matrix
         if isinstance(array[0], (int, float)):
             for i in range(len(array)):
-                self.matrix.append(array[i])
+                self.matrix.append([array[i]])
             return
 
-        # Check numbers of columns of each row
+        # Check if matrice given is valid
         for i in range(len(array)):
             if len(array[0]) != len(array[i]):
                 print('\033[31mConstructor error : Invalid size input\033[0m')
                 return
 
-        # Fill the matrix
-        for i in range(len(array)):
-            self.matrix.append(array[i])
+        # Populate matrix for multiples columns
+        for i in range(len(array[0])):
+            row = []
+            for j in range(len(array)):
+                row.append(array[j][i])
+            self.matrix.append(row)
 
     # Debug function to print all values from Matrix object
     def print(self):
         for i in range(len(self.matrix)):
-            for j in range(len(self.matrix[i])):
-                if j == len(self.matrix[i]) - 1:
-                    print(self.matrix[i][j])
-                else:
-                    print(self.matrix[i][j], end=', ')
+            print(self.matrix[i])
         print()
 
     # Return a 1D array with shape [rows, columns]
@@ -109,3 +111,33 @@ class Matrix(object):
                 temp.append(value)
             new_matrix.append(temp)
         return new_matrix
+
+    # Matrix trace
+    def trace(self):
+        # Check if it's a square
+        if self.shape()[0] != self.shape()[1]:
+            return None
+
+        tr = 0
+        for i in range(len(self.matrix)):
+            tr += self.matrix[i][i]
+        return tr
+
+    # Transpose matrix
+    def transpose(self):
+        if self.shape()[1] == 1:
+            return None
+        save = []
+        for i in range(len(self.matrix)):
+            temp = []
+            for j in range(len(self.matrix[i])):
+                temp.append(self.matrix[j][i])
+            save.append(temp)
+        self.matrix = save
+        return self.matrix
+
+    # Row echelon form using Gaussian elimination
+    def row_echelon(self):
+        row_echelon_matrix = []
+
+        return row_echelon_matrix
