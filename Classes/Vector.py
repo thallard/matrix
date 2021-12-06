@@ -107,7 +107,7 @@ class Vector(object):
         norm = 0.0
         for i in range(len(self.vector)):
             norm += abs(self.vector[i])
-        return round(norm ** 0.5, 5)
+        return norm
 
     # Euclidean norm
     def norm(self):

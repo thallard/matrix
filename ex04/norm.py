@@ -13,3 +13,24 @@ if __name__ == '__main__':
 
     v1 = Vector([-1, -2])
     print(v1.norm_1(), v1.norm(), v1.norm_inf())
+
+    v1 = Vector([0])
+    print(v1.norm_1(), v1.norm(), v1.norm_inf())
+
+    v1 = Vector([1])
+    print(v1.norm_1(), v1.norm(), v1.norm_inf())
+
+    v1 = Vector([0, 0])
+    print(v1.norm_1(), v1.norm(), v1.norm_inf())
+
+    v1 = Vector([1, 0])
+    print(v1.norm_1(), v1.norm(), v1.norm_inf())
+
+    v1 = Vector([2, 1])
+    print(v1.norm_1(), v1.norm(), v1.norm_inf())
+
+    v1 = Vector([4, 2])
+    print(v1.norm_1(), v1.norm(), v1.norm_inf())
+
+    v1 = Vector([-4, -2])
+    print(v1.norm_1(), v1.norm(), v1.norm_inf())

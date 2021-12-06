@@ -114,10 +114,10 @@ class Matrix(object):
         matrix_lerp = []
 
         # Gestion for one column
-        if isinstance(target.matrix[0], (int, float)) and isinstance(self.matrix[0], (int, float)):
-            for i in range(len(self.matrix)):
-                matrix_lerp.append((target.matrix[i] - self.matrix[i]) * interpolation + self.matrix[i])
-            return matrix_lerp
+        # if isinstance(target.matrix[0], (int, float)) and isinstance(self.matrix[0], (int, float)):
+        #     for i in range(len(self.matrix)):
+        #         matrix_lerp.append((target.matrix[i] - self.matrix[i]) * interpolation + self.matrix[i])
+        #     return matrix_lerp
 
         # Compare shape of matrixes
         if self.shape() != target.shape():
@@ -127,7 +127,7 @@ class Matrix(object):
         for i in range(len(self.matrix)):
             values = []
             for j in range(len(self.matrix[i])):
-                values.append((target.matrix[j][i] - self.matrix[j][i]) * interpolation + self.matrix[j][i])
+                values.append((target.matrix[i][j] - self.matrix[i][j]) * interpolation + self.matrix[i][j])
             matrix_lerp.append(values)
         return matrix_lerp
 
