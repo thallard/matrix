@@ -27,11 +27,10 @@ def lerp(origin, target, interpolation):
 
 if __name__ == '__main__':
     print('\033[35mLinear interpolation with int or float\033[0m')
-    print(lerp(0, 1, 12))
     print(lerp(0, 1, 0))
     print(lerp(0, 1, 1))
-    print(lerp(0, 1, 0.5))
-    print(lerp(21, 42, 0.3))
+    print(lerp(0, 42, 0.5))
+    print(lerp(-42, 42, 0.5))
 
     print('\n\033[35mLinear interpolation with vectors\033[0m')
     v1 = Vector([2, 1])
@@ -39,10 +38,5 @@ if __name__ == '__main__':
     print(lerp(v1, v2, 0.3))
 
     print('\n\033[35mLinear interpolation with matrices\033[0m')
-    m1 = Matrix([[2, 1], [3, 4]])
-    m2 = Matrix([[20, 10], [30, 40]])
-    print(lerp(m1, m2, 0.5))
-
-    m1 = Matrix([5, 10])
-    m2 = Matrix([5, 10])
-    print(lerp(m1, m2, 0.5))
+    print(lerp(Matrix([[2, 1], [3, 4]]), Matrix([[20, 10], [30, 40]]), 0.5))
+    print(lerp(Matrix([5, 10]), Matrix([5, 10]), 0.5))
