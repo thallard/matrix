@@ -39,20 +39,21 @@ class Matrix(object):
         for i in range(len(array)):
             if len(array[0]) != len(array[i]):
                 print('\033[31mConstructor error : Invalid size input\033[0m')
-                return
+                sys.exit(1)
 
         # Populate matrix for multiples columns
-        for i in range(len(array[0])):
+        for i in range(len(array)):
             row = []
-            for j in range(len(array)):
-                row.append(array[j][i])
+            for j in range(len(array[i])):
+                row.append(array[i][j])
             self.matrix.append(row)
 
     # Debug function to print all values from Matrix object
-    def print(self):
+    def print(self, condition = True):
         for i in range(len(self.matrix)):
             print(self.matrix[i])
-        print()
+        if condition:
+            print()
 
     # Return a 1D array with shape [rows, columns]
     def shape(self):
@@ -113,12 +114,6 @@ class Matrix(object):
     def lerp(self, target, interpolation):
         matrix_lerp = []
 
-        # Gestion for one column
-        # if isinstance(target.matrix[0], (int, float)) and isinstance(self.matrix[0], (int, float)):
-        #     for i in range(len(self.matrix)):
-        #         matrix_lerp.append((target.matrix[i] - self.matrix[i]) * interpolation + self.matrix[i])
-        #     return matrix_lerp
-
         # Compare shape of matrixes
         if self.shape() != target.shape():
             return None
@@ -175,13 +170,62 @@ class Matrix(object):
         for i in range(len(self.matrix)):
             temp = []
             for j in range(len(self.matrix[i])):
-                temp.append(self.matrix[j][i])
+                temp.append(self.matrix[i][j])
             save.append(temp)
         self.matrix = save
         return self.matrix
 
     # Row echelon form using Gaussian elimination
     def row_echelon(self):
-        row_echelon_matrix = []
+        matrix = self.matrix
 
-        return row_echelon_matrix
+        lead = 0
+        rows = len(self.matrix)
+        columns = len(self.matrix[0])
+        for r in range(rows):
+            if columns <= lead:
+                return matrix
+            i = r
+            while matrix[i][lead] == 0:
+                i += 1
+                if rows == i:
+                    i = r
+                    lead += 1
+                    if columns == lead:
+                        return matrix
+            # Swap lines
+            matrix[i], matrix[r] = matrix[r], matrix[i]
+            lv = matrix[r][lead]
+            matrix[r] = [mrx / float(lv) for mrx in matrix[r]]
+            for i in range(rows):
+                if i != r:
+                    lv = matrix[i][lead]
+                    matrix[i] = [iv - lv * rv for rv,iv in zip(matrix[r], matrix[i])]
+            lead += 1
+        return matrix
+        # matrix = []
+        # self.print(True)
+        #
+        # reduced = True
+        # j = 0
+        # i = 0
+        # while reduced:
+        #     # Find the correct number to cancel line one
+        #     save = self.matrix[j][i]
+        #     for l in range(len(self.matrix[j])):
+        #         print((1.0 / save), 'que je multiplie avec : ', self.matrix[l][j])
+        #         self.matrix[j][l] *= (1.0 / save)
+        #
+        #     # Finish reduced row echelon form
+        #     if i == len(self.matrix[j]) - 1 and self.matrix[j][i] == 1:
+        #         reduced = False
+        #     if self.matrix[j][i] == 1:
+        #         j += 1
+        #         i += 1
+        #
+        #
+        #     # number = self.matrix[0][0]
+        #
+        #     # reduced = False
+        # self.print(True)
+        # return self.matrix
