@@ -1,6 +1,5 @@
 import sys
 
-
 # Verify content provided in matrices
 def is_valid(array):
     # One row gestion
@@ -20,6 +19,7 @@ def is_valid(array):
             if not isinstance(array[i][j], (int, float)):
                 print('\033[31mIncorrect value given (' + str(array[i]) + ').\033[0m')
                 sys.exit(1)
+
 
 
 class Matrix(object):
@@ -95,10 +95,10 @@ class Matrix(object):
     def linear_combination(self, scalars):
         modified_matrix = []
 
-        # Check size input
-        for i in range(len(self.matrix)):
-            if len(self.matrix[i]) != len(self.matrix[0]) or len(scalars) != len(self.matrix):
-                return None
+        # # Check size input
+        # for i in range(len(self.matrix)):
+        #     if len(self.matrix[i]) != len(self.matrix[0]) or len(scalars) != len(self.matrix):
+        #         return None
 
         # print(len(self.matrix))
         # Linear combination
@@ -177,9 +177,9 @@ class Matrix(object):
         self.matrix = save
         return self.matrix
 
-    # Row echelon form using Gaussian elimination
-    def row_echelon(self):
-        # Clone my matrix
+    # Private reduced row echelon form with Gaussian elimination
+    def __rref(self, inverse):
+        # Clone the given matrice
         matrix = []
         for i in range(len(self.matrix)):
             line = []
@@ -187,30 +187,78 @@ class Matrix(object):
                 line.append(self.matrix[i][j])
             matrix.append(line)
 
-        lead = 0
+        # Create identity matrice
+        identity = []
+        one = 0
+        for i in range(len(self.matrix)):
+            line = []
+            for j in range(len(self.matrix[i])):
+                if one == j:
+                    line.append(1)
+                else:
+                    line.append(0)
+            identity.append(line)
+            one += 1
+
+
+        # for column in range(len(self.matrix)):
+
+
+
+        line = 0
         for row in range(len(self.matrix)):
-            if len(self.matrix[0]) <= lead:
+            if len(self.matrix[0]) <= line:
                 return matrix
             i = row
-            while matrix[i][lead] == 0:
+            while matrix[i][line] == 0:
                 i += 1
                 if len(self.matrix) == i:
                     i = row
-                    lead += 1
-                    if len(self.matrix[0]) == lead:
+                    line += 1
+                    if len(self.matrix[0]) == line:
                         return matrix
-            # Swap lines i with row
-            matrix[i], matrix[row] = matrix[row], matrix[i]
-            pivot = matrix[row][lead]
-            matrix[row] = [m / float(pivot) for m in matrix[row]]
 
-            # Cancel each line by multiplying it with the lead
+            # Swap matrix line
+            matrix[i], matrix[row] = matrix[row], matrix[i]
+            identity[i], identity[row] = identity[row], identity[i]
+
+            # Select pivot to cancel the line
+            pivot = matrix[row][line]
+
+            # Cancel the line
+            matrix[line] = [m / float(pivot) for m in matrix[line]]
+            identity[row] = [m / float(pivot) for m in identity[row]]
+
+            # Cancel each line by multiplying it with the line variable
             for i in range(len(self.matrix)):
-                if i != row:
-                    pivot = matrix[i][lead]
-                    matrix[i] = [i_matrix - pivot * row_matrix for row_matrix, i_matrix in zip(matrix[row], matrix[i])]
-            lead += 1
+                # pivot = matrix[i][lead]
+                if i != line:
+                    pivot = matrix[i][row]
+                #     for i in 0..M {
+                #     if i == actual_line {
+                #     continue;
+                #     }
+                #     let
+                #     pivot = res[i][col].clone();
+                #     for j in col..N {
+                #     res[i][j] = res[i][j] - pivot * res[actual_line][j];
+                # }
+                # }
+                    for j in range(i, len(self.matrix)):
+                        matrix[i][j] -= pivot * matrix[line][j]
+                    # Cancel matrice and identity line
+                    identity[i] = [i_id - pivot * row_id for row_id, i_id in zip(identity[row], identity[i])]
+            line += 1
+
+        if inverse:
+            return identity
+        m = Matrix(matrix)
+        m.print()
         return matrix
+
+    # Row echelon form using Gaussian elimination
+    def row_echelon(self):
+        return self.__rref(False)
 
     # Private recursive function for determinant
     def __det(self, matrix, size, final_matrix, scalar):
@@ -247,21 +295,24 @@ class Matrix(object):
             matrix.append(self.matrix[i])
         return self.__det(matrix, len(matrix), [], False)
 
+
     # Return inverse of the given matrice
     def inverse(self):
-        matrix = []
-
-        # Clone the given matrice
-        for i in range(len(self.matrix)):
-            line = []
-            for j in range(len(self.matrix[i])):
-                line.append(self.matrix[i][j])
-            matrix.append(line)
-
-        # Check if the matrice is singular
-        if self.determinant() == 0:
+        # Check if the matrice is singular or a square
+        if self.determinant() == 0 or not self.is_square():
             print('\033[33mThe given matrice is singular.\033[0m')
             return 0
+
+        # Clone the given matrice
+        m = Matrix(self.matrix)
+
+        # Get inverse of my matrice
+        m.__rref(True)
+
+        # Apply a scalar transformation
+        # linear_combination(m.matrix, 1/4)
+        m.scl(1/4)
+        return m
 
 
 
