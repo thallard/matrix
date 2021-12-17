@@ -49,7 +49,7 @@ class Matrix(object):
             self.matrix.append(row)
 
     # Debug function to print all values from Matrix object
-    def print(self, condition = True):
+    def print(self, condition=True):
         for i in range(len(self.matrix)):
             print(self.matrix[i])
         if condition:
@@ -61,7 +61,9 @@ class Matrix(object):
 
     # Return a boolean if the Matrix is a square
     def is_square(self):
-        length = len(self.matrix)
+        if len(self.matrix[0]) == len(self.matrix):
+            return True
+        return False
 
     # Add a matrix with the current matrix
     def add(self, matrix):
@@ -177,55 +179,100 @@ class Matrix(object):
 
     # Row echelon form using Gaussian elimination
     def row_echelon(self):
-        matrix = self.matrix
+        # Clone my matrix
+        matrix = []
+        for i in range(len(self.matrix)):
+            line = []
+            for j in range(len(self.matrix[i])):
+                line.append(self.matrix[i][j])
+            matrix.append(line)
 
         lead = 0
-        rows = len(self.matrix)
-        columns = len(self.matrix[0])
-        for r in range(rows):
-            if columns <= lead:
+        for row in range(len(self.matrix)):
+            if len(self.matrix[0]) <= lead:
                 return matrix
-            i = r
+            i = row
             while matrix[i][lead] == 0:
                 i += 1
-                if rows == i:
-                    i = r
+                if len(self.matrix) == i:
+                    i = row
                     lead += 1
-                    if columns == lead:
+                    if len(self.matrix[0]) == lead:
                         return matrix
-            # Swap lines
-            matrix[i], matrix[r] = matrix[r], matrix[i]
-            lv = matrix[r][lead]
-            matrix[r] = [mrx / float(lv) for mrx in matrix[r]]
-            for i in range(rows):
-                if i != r:
-                    lv = matrix[i][lead]
-                    matrix[i] = [iv - lv * rv for rv,iv in zip(matrix[r], matrix[i])]
+            # Swap lines i with row
+            matrix[i], matrix[row] = matrix[row], matrix[i]
+            pivot = matrix[row][lead]
+            matrix[row] = [m / float(pivot) for m in matrix[row]]
+
+            # Cancel each line by multiplying it with the lead
+            for i in range(len(self.matrix)):
+                if i != row:
+                    pivot = matrix[i][lead]
+                    matrix[i] = [i_matrix - pivot * row_matrix for row_matrix, i_matrix in zip(matrix[row], matrix[i])]
             lead += 1
         return matrix
-        # matrix = []
-        # self.print(True)
-        #
-        # reduced = True
-        # j = 0
-        # i = 0
-        # while reduced:
-        #     # Find the correct number to cancel line one
-        #     save = self.matrix[j][i]
-        #     for l in range(len(self.matrix[j])):
-        #         print((1.0 / save), 'que je multiplie avec : ', self.matrix[l][j])
-        #         self.matrix[j][l] *= (1.0 / save)
-        #
-        #     # Finish reduced row echelon form
-        #     if i == len(self.matrix[j]) - 1 and self.matrix[j][i] == 1:
-        #         reduced = False
-        #     if self.matrix[j][i] == 1:
-        #         j += 1
-        #         i += 1
-        #
-        #
-        #     # number = self.matrix[0][0]
-        #
-        #     # reduced = False
-        # self.print(True)
-        # return self.matrix
+
+    # Private recursive function for determinant
+    def __det(self, matrix, size, final_matrix, scalar):
+        if size == 2:
+            return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+        elif size >= 3:
+            determinant = 0
+            for column in range(size):
+                new = []
+                for row in range(1, size):
+                    line = []
+                    for i in range(size):
+                        if i != column:
+                            line.append(matrix[row][i])
+                    new.append(line)
+                value = matrix[0][column] * self.__det(new, size - 1, final_matrix, scalar)
+
+                # Add or substrate depends on column
+                if column % 2 == 1:
+                    value = -value
+                determinant += value
+            return determinant
+
+    # Public function with return determinant of a square matrice
+    def determinant(self):
+        matrix = []
+
+        # Check if the matrice given is a square
+        if not self.is_square():
+            return 0
+
+        # Clone the matrice
+        for i in range(len(self.matrix)):
+            matrix.append(self.matrix[i])
+        return self.__det(matrix, len(matrix), [], False)
+
+    # Return inverse of the given matrice
+    def inverse(self):
+        matrix = []
+
+        # Clone the given matrice
+        for i in range(len(self.matrix)):
+            line = []
+            for j in range(len(self.matrix[i])):
+                line.append(self.matrix[i][j])
+            matrix.append(line)
+
+        # Check if the matrice is singular
+        if self.determinant() == 0:
+            print('\033[33mThe given matrice is singular.\033[0m')
+            return 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
