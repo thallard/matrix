@@ -36,7 +36,7 @@ class Vector(object):
             if len(self.vector) == len(vector):
                 self.vector[i] += vector[i]
             else:
-                print('\033[31mAdd error : Invalid size between two matrices\033[0m')
+                print('\033[31mAdd error : Invalid size between two vectors\033[0m')
                 return
 
     # Sub a matrix with the current vector
@@ -45,7 +45,7 @@ class Vector(object):
             if len(self.vector) == len(vector):
                 self.vector[i] -= vector[i]
             else:
-                print('\033[31mAdd error : Invalid size between two matrices\033[0m')
+                print('\033[31mAdd error : Invalid size between two vectors\033[0m')
                 return
 
     # Multiply a matrix with a scalar
