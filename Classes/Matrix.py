@@ -192,7 +192,6 @@ class Matrix(object):
             identity.append(line)
             one += 1
 
-
         line = 0
         rowCount = len(self.matrix)
         columnCount = len(self.matrix[0])
@@ -223,40 +222,42 @@ class Matrix(object):
                     identity[i] = [iv - pivot * rv for rv, iv in zip(identity[row], identity[i])]
             line += 1
 
-        print(self.matrix)
+        # print(self.matrix)
+        # print(identity)
         if inverse:
-            return identity
-        m = Matrix(self.matrix)
-        # m.print()
+            return Matrix(identity)
+
         return self.matrix
 
     # Row echelon form using Gaussian elimination
     def row_echelon(self):
-        lead = 0
+        line = 0
         rowCount = len(self.matrix)
         columnCount = len(self.matrix[0])
 
-        for r in range(rowCount):
-            if lead >= columnCount:
+        for row in range(rowCount):
+            if line >= columnCount:
                 return self.matrix
-            i = r
-            while self.matrix[i][lead] == 0:
+            i = row
+            while self.matrix[i][line] == 0:
                 i += 1
                 if i == rowCount:
-                    i = r
-                    lead += 1
-                    if columnCount == lead:
+                    i = row
+                    line += 1
+                    if columnCount == line:
                         return self.matrix
 
-            self.matrix[i], self.matrix[r] = self.matrix[r], self.matrix[i]
-            lv = self.matrix[r][lead]
-            self.matrix[r] = [mrx / float(lv) for mrx in self.matrix[r]]
+            self.matrix[i], self.matrix[row] = self.matrix[row], self.matrix[i]
+
+            coef = self.matrix[row][line]
+
+            self.matrix[row] = [mrx / float(coef) for mrx in self.matrix[row]]
             for i in range(rowCount):
-                if i != r:
-                    lv = self.matrix[i][lead]
-                    self.matrix[i] = [iv - lv * rv for rv, iv in zip(self.matrix[r], self.matrix[i])]
-            lead += 1
-       
+                if i != row:
+                    pivot = self.matrix[i][line]
+                    self.matrix[i] = [iv - pivot * rv for rv, iv in zip(self.matrix[row], self.matrix[i])]
+            line += 1
+
         return self.matrix
 
     # Private recursive function for determinant
@@ -305,9 +306,53 @@ class Matrix(object):
         m = Matrix(self.matrix)
 
         # Get inverse of my matrice
-        m.__rref(True)
+        return m.__rref(True)
+        # m.mul_mat(self.matrix)
+        # print(m.matrix)
+        #
+        # return m.matrix
 
-        # Apply a scalar transformation
-        # linear_combination(m.matrix, 1/4)
-        # m.scl(1 / 4)
-        return m
+    # Return rank of a given matrice
+    def rank(self):
+        rank = 0
+
+        # Clone the given matrice
+        m = Matrix(self.matrix)
+
+        # Apply gaussian elimination
+        m.row_echelon()
+
+        # Check for each null row
+        matrix = m.matrix
+
+        for row in matrix:
+            zero = 0
+            for col in row:
+                if col == 0:
+                    zero += 1
+            if zero != len(row):
+                rank += 1
+
+        return rank
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

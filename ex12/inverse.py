@@ -18,9 +18,27 @@ if __name__ == '__main__':
     m1.print(False)
     m1.inverse().print()
 
-    # m1 = Matrix([[1, 2], [0, 2]])
-    # m1.inverse().print()
-
     print('\033[35mInverse on matrices (correction)\033[0m')
-    # m1 = Matrix([[1, 0], [0, 1]])
-    # print(m1.inverse())
+    m1 = Matrix([[1, 0], [0, 1]])
+    m1.print(False)
+    m1.inverse().print()
+
+    m1 = Matrix([[2, 0], [0, 2]])
+    m1.print(False)
+    m1.inverse().print()
+
+    m1 = Matrix([[0.5, 0], [0, 0.5]])
+    m1.print(False)
+    m1.inverse().print()
+
+    m1 = Matrix([[0, 1], [1, 0]])
+    m1.print(False)
+    m1.inverse().print()
+
+    m1 = Matrix([[1, 2], [3, 4]])
+    m1.print(False)
+    m1.inverse().print()
+
+    m1 = Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
+    m1.print(False)
+    m1.inverse().print()
